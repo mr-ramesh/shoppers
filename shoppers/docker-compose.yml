@@ -1,0 +1,41 @@
+services:
+  eureka-server:
+    image: eureka-server:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - backend
+  gateway:
+    image: gateway:latest
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka-server:8761/eureka"
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+  security:
+    image: security:latest
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka-server:8761/eureka"
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+  product:
+    image: product:latest
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka-server:8761/eureka"
+    ports:
+      - "8082:8082"
+    networks:
+      - backend
+  order:
+    image: order:latest
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://eureka-server:8761/eureka"
+    ports:
+      - "8083:8083"
+    networks:
+      - backend
+networks:
+  backend:
